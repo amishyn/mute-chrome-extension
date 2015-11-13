@@ -1,6 +1,6 @@
 {
   "name": "__MSG_appName__",
-  "version": "0.0.26",
+  "version": "0.0.44",
   "manifest_version": 2,
   "description": "__MSG_appDescription__",
   "icons": {
@@ -10,7 +10,7 @@
   "default_locale": "en",
   "background": {
     "scripts": [
-      "scripts/jquery-2.1.4.min.js",
+      "scripts/hello_message.js",
       "scripts/chromereload.js",
       "scripts/background.js"
     ]
@@ -40,6 +40,7 @@
       ],
       "js": [
         "scripts/vendor.js",
+        "scripts/hello_message.js",
         "scripts/contentscript.js"
       ],
       "run_at": "document_end",

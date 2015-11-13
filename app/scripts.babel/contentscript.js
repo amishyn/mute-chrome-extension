@@ -38,11 +38,14 @@ class View {
   }
 
   render() {
-    $('body').append('<div id="muteControlCenter"><div id="muteIndicator">Muted</div> <button id="mute">Mute</button><button id="unmute">UnMute</button> </div>')
+    $('body').append('<div id="muteControlCenter"><div id="reactControl"></div><div id="muteIndicator">Muted</div> <button id="mute">Mute</button><button id="unmute">UnMute</button> </div>')
     $('#muteControlCenter').css({'position': 'absolute', top: 0, right: 0, 'z-index': 1000, margin: 20})
     $('#mute').click(this.mute.bind(this))
     $('#unmute').click(this.unmute.bind(this))
 
     this.updateState()
+
+    ReactDOM.render(React.createElement(HelloMessage, { name: "John React" }), document.getElementById('reactControl'));
+
   }
 }
