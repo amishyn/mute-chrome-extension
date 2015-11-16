@@ -21,8 +21,8 @@ class View {
   }
 
   mute() {
-    $('.volumeControlFocus:not(.muted)').click()
-    $('.selfView .micButton.micButtonOn').click()
+      $('.volumeControlFocus:not(.muted)').click()
+      $('.selfView .micButton.micButtonOn').click()
 
     this.updateState()
   }
