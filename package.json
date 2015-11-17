@@ -1,7 +1,11 @@
 {
   "name": "mute-chrome-extension",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "react": "^0.14.2",
+    "react-redux": "^4.0.0",
+    "redux": "^3.0.4"
+  },
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-babel": "^5.0.1",
