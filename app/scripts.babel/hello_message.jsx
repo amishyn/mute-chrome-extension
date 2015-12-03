@@ -20,6 +20,7 @@ function unmute() {
 function showRabbitControls() {
   $('.controlFocus').removeClass('hideAddFriend hideAddFriendPending hideKickout hideMuteVideo hideVolume hideMessage')
   $('.userSessionBubble').addClass('showMenu').addClass('showUserName')
+  $('.userSessionView').addClass('showMenu').addClass('showUserName')
 }
 
 function isMuted() {
@@ -41,10 +42,40 @@ function unMuteAllSessinons() {
   $('.sessionsRight .menuItem.volume.muted .volumeIcon').click()
 }
 
+function persistConfigInBrowser() {
+  var pinned = []
+  $('.gridView > .userSessionView .content').map((index,element) => {
+    let e = $(element)
+
+    let r = {
+      name: e.find('.userName').text()
+    }
+    pinned.push(r)
+  })
+  $.cookie('pinned', JSON.stringify(pinned))
+  console.log('saved ', JSON.stringify(pinned))
+}
+
+function loadPinned(){
+  let pinnedRaw = $.cookie('pinned')
+  console.log('pinned loaded', pinnedRaw)
+
+  let pinnedNames = JSON.parse(pinnedRaw).map((e) => { return e.name})
+  console.log('pinnedNames', pinnedNames)
+
+  $('.trayView .userName').each((index, element) => {
+    let e = $(element)
+    if (pinnedNames.includes(e.text())) {
+      $(element).parent().find('.forceFocusArea .sessionMenu .pinnButton').click()
+    }
+  })
+}
 
 class HelloMessage extends React.Component {
   constructor(props) {
     super(props)
+    muteAllSessinons()
+
     this.state = {
       isMuted:    isMuted(),
       isAllMuted: isAllMuted()
@@ -81,14 +112,36 @@ class HelloMessage extends React.Component {
     showRabbitControls()
   }
 
+  saveConfig() {
+    persistConfigInBrowser()
+  }
+
+  loadConfig() {
+    loadPinned()
+  }
+
   render() {
     showRabbitControls()
+
     let {isMuted,isAllMuted} = this.state
     return (
       <div>
-        <button style={this.muteStyle(this.state.isMuted)} onClick={this.toggleMute.bind(this)}>{ isMuted ? 'Unmute Me' : 'Mute Me' }</button>
-        <button style={this.muteStyle(this.state.isAllMuted)} onClick={this.toggleMuteAll.bind(this)}>{ isAllMuted ? 'Unmute Them' : 'Mute Them' }</button>
-          <button onClick={this.showControls.bind(this)}>Show controls</button>
+        <p>
+          <button className="btn btn-primary  btn-block" style={this.muteStyle(this.state.isMuted)} onClick={this.toggleMute.bind(this)}>{ isMuted ? 'Unmute Me' : 'Mute Me' }</button>
+          <button className="btn btn-primary  btn-block" style={this.muteStyle(this.state.isAllMuted)} onClick={this.toggleMuteAll.bind(this)}>{ isAllMuted ? 'Unmute Them' : 'Mute Them' }</button>
+        </p>
+        <p>
+          <button className="btn btn-secondary" onClick={this.showControls.bind(this)}>Show controls</button>
+        </p>
+
+        <p>
+          <button className="btn btn-secondary" onClick={this.saveConfig.bind(this)}>Save Pinned</button>
+        </p>
+
+        <p>
+          <button className="btn btn-secondary" onClick={this.loadConfig.bind(this)}>Load Pinned</button>
+        </p>
+
       </div>
     )
   }
