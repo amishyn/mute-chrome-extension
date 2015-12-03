@@ -121,7 +121,9 @@ class HelloMessage extends React.Component {
   }
 
   render() {
+    muteAllSessinons()
     showRabbitControls()
+    loadPinned()
 
     let {isMuted,isAllMuted} = this.state
     return (
